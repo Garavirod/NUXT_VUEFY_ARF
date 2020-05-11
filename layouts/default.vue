@@ -110,7 +110,7 @@
               <b-icon icon="video" />Películas
             </nuxt-link>
           </li>
-          <li>
+          <li v-if="user">
             <nuxt-link to="/favoritas" exact-active-class="is-active">
               <b-icon icon="star" />Favoritas
             </nuxt-link>
@@ -136,7 +136,7 @@ export default {
       registerEmail: "",
       registerPassword1: "",
       registerPassword2: "",
-      isRegisterActive:''
+      isRegisterActive: ""
     };
   },
   computed: {
@@ -161,6 +161,8 @@ export default {
             this.loginPassword = "";
             // Escondemos la modal
             this.isLoginActive = false;
+            // Redireccionamos a las pelis favoritas
+            this.$router.replace({ path: "/favoritas" });
           }
         })
         .catch(error => {
@@ -170,6 +172,8 @@ export default {
     logout() {
       this.$store.commit("saveToken", null);
       this.$store.commit("saveUser", null);
+      // Redirect to root
+      this.$router.replace({ path: "/" });
     },
     register() {
       return this.$axios
